@@ -1,0 +1,32 @@
+{
+  "name": "pug-sass-compile",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/investment4057/pug-sass-compile.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/investment4057/pug-sass-compile/issues"
+  },
+  "homepage": "https://github.com/investment4057/pug-sass-compile#readme",
+  "devDependencies": {
+    "autoprefixer": "^10.2.6",
+    "css-declaration-sorter": "^6.0.3",
+    "css-mqpacker": "^7.0.0",
+    "gulp": "^4.0.2",
+    "gulp-postcss": "^9.0.0",
+    "gulp-pug": "^5.0.0",
+    "gulp-sass": "^5.0.0",
+    "node-sass": "^6.0.1",
+    "postcss": "^8.3.5",
+    "sass": "^1.35.1"
+  }
+}
