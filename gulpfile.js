@@ -6,6 +6,8 @@ var autoprefixer = require("autoprefixer");
 var mqpacker = require("css-mqpacker");
 var cssdeclsort = require("css-declaration-sorter");
 var pug = require("gulp-pug");
+var uglify = require('gulp-uglify');
+var rename = require('gulp-rename');
 
 // Sassをコンパイルする
 const compileSass = () =>
@@ -44,7 +46,19 @@ const compilePug = () =>
 const watchPugFiles = () =>
   watch("pug/*.pug", compilePug);
 
+  // js minifyを
+const compileJs = () =>
+  src(['./js/*.js', '!./js/*.min.js'])
+    .pipe(uglify())
+    .pipe(rename({extname: '.min.js'}))
+    .pipe(dest('./js/'));
+
+// pugファイルを監視
+const watchJsFiles = () =>
+  watch("js/*.js", compileJs);
+
 // npx gulpで実行される関数
 exports.default = () =>
   watchPugFiles();
   watchSassFiles();
+  watchJsFiles();
