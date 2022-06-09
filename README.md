@@ -1,30 +1,23 @@
-# 動作確認済みバージョン
+# Pug, Scss Compile, Js Minify
 
-### macOS Catalina（バージョン:10.15.7）
+## Gulp 設定
 
-```
-node : v14.2.0
-npm : 6.14.9
-```
-
-# package.json でモジュールの一括インストール
-
-コマンドプロンプトでプロジェクトフォルダまで移動して、以下のコマンドを入力して Enter
+Scss, Pug のコンパイルには Gulp を使用。
 
 ```
-$ npm install
+node : v16.15.0
+npm : 8.5.5
 ```
 
-`package.json`に書かれたバージョンのモジュールが一括でダウンロードされます。
+### package.json でモジュール一括インストール
 
-結果、`node_modules`フォルダが作成され、この中にすべてのモジュールが入ります。
+プロジェクトフォルダ直下で、以下のコマンドを実行。（package.json に書かれたバージョンのモジュールが一括でダウンロードされる）
 
-## 追加機能
+```
+% npm install
+```
 
-- 2021.07.04 Pug と Sass の自動コンパイル
-- 2022.05.23 JavaScript を自動 minify
-
-### 機能一覧
+#### 機能一覧
 
 - glup-sass : sass をコンパイル
 - gulp-pug : pug をコンパイル
@@ -33,3 +26,23 @@ $ npm install
 - css-declaration-sorte : プロパティの順序を揃える（SMACSS 順）
 - gulp-uglify : Js を minify する
 - gulp-rename : コンパイル後の Js ファイルを min.js でリネームして出力
+
+### 【非推奨】Sass の除算（ / ）
+
+CSS の値で / （スラッシュ） を区切りとして使用するプロパティがあり、そういった場合、「除算と区切りとどちらの意味として取ればいいか判断できない」という状況が出てしまう。
+
+よって、Sass の除算で / （スラッシュ） は非推奨でコンパイルエラーとなるため、代替として math.div を使用。
+
+テンプレートでは、非推奨の書き方なので、以下のパッケージを使用して一括置換。
+
+```
+% npm install -g sass-migrator
+% sass-migrator division **/*.scss
+```
+
+### オリジナルのタスクを使えるようにパスを通して Js を Minify
+
+```
+% export PATH=$PATH:./node_modules/.bin
+% gulp compile-js
+```

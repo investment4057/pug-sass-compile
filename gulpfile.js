@@ -8,10 +8,12 @@ var cssdeclsort = require("css-declaration-sorter");
 var pug = require("gulp-pug");
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
+const concat = require('gulp-concat');
 
 // Sassをコンパイルする
 const compileSass = () =>
-  src("sass/*.scss")
+  // src("sass/*.scss")
+  src("./css/**/*.scss")
     // Sassのコンパイルを実行
     .pipe(
       sass({
@@ -26,39 +28,42 @@ const compileSass = () =>
     .pipe(postcss([autoprefixer()]))
     .pipe(postcss([mqpacker()]))
     // cssフォルダー以下に保存
-    .pipe(dest("css"));
+    .pipe(dest("./css"));
 
 // Sassファイルを監視
 const watchSassFiles = () =>
-  watch("sass/*.scss", compileSass);
+  // watch("sass/*.scss", compileSass);
+  watch("./css/**/*.scss", compileSass);
 
 // pugをコンパイルする
 const compilePug = () =>
-  src("pug/*.pug")
+  // src("./_html/**/*.pug")
+  src("./_html/**/!(_)*.pug")
     .pipe(
       pug({
         pretty: true
       })
     )
-    .pipe(dest("./"));
+    .pipe(dest("./_html"));
 
 // pugファイルを監視
 const watchPugFiles = () =>
-  watch("pug/*.pug", compilePug);
-
-  // js minifyを
-const compileJs = () =>
-  src(['./js/*.js', '!./js/*.min.js'])
-    .pipe(uglify())
-    .pipe(rename({extname: '.min.js'}))
-    .pipe(dest('./js/'));
-
-// pugファイルを監視
-const watchJsFiles = () =>
-  watch("js/*.js", compileJs);
+  watch("./_html/**/*.pug", compilePug);
 
 // npx gulpで実行される関数
 exports.default = () =>
   watchPugFiles();
   watchSassFiles();
-  watchJsFiles();
+
+// jsファイルを結合して圧縮
+// gulp compile-jsで実行
+var gulp = require('gulp');
+gulp.task("compile-js", function(){
+  return src(['./js/plugin.js', './js/common.js'])
+    .pipe(concat('common-min.js'))
+    .pipe(uglify())
+    // リネーム用
+    // .pipe(rename({basename: '-min'}))
+    // .pipe(rename({extname: '.min.js'}))
+    .pipe(dest('./js/'));
+});
